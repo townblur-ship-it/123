@@ -22,7 +22,28 @@ export default function DailyRate(props) {
     socialSecurityCost: 0,
     cash: 0,
     preTaxSalary: 0
-  });
+  });// 1. 在组件加载时获取参数
+  useEffect(() => {
+    // 根据你使用的框架语法，从 $w.page.params 或类似的属性中提取
+    const params = $w.page.params || {}; 
+    
+    if (Object.keys(params).length > 0) {
+      console.log('接收到的参数:', params);
+      
+      setInitialData(prev => ({
+        ...prev,
+        budget: params.budget || prev.budget,
+        profitRate: params.profitRate || prev.profitRate,
+        cost: params.cost || prev.cost,
+        annualCost: params.annualCost || prev.annualCost,
+        baseSalary: params.baseSalary || prev.baseSalary,
+        otherCostBonus: params.otherCostBonus || prev.otherCostBonus,
+        socialSecurityCost: params.socialSecurityCost || prev.socialSecurityCost,
+        cash: params.cash || prev.cash,
+        preTaxSalary: params.preTaxSalary || prev.preTaxSalary
+      }));
+    }
+  }, []); // 仅在页面初始化时运行一次
 
   // 当前计算状态
   const [baseSalary, setBaseSalary] = useState('7460');
