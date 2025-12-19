@@ -12,7 +12,27 @@ export default function DailyRate(props) {
   } = props;
 
   // 从URL参数获取传递的数据
-  const [initialData, setInitialData] = useState({
+  const [initialData, setInitialData] = useState({// 在你的 useState 之后插入
+  useEffect(() => {
+    // 这里的 $w.page.params 是关键，请确认你的框架是通过这个路径获取参数
+    const params = $w.page.params || {};
+    
+    if (params && Object.keys(params).length > 0) {
+      console.log("检测到传入参数:", params);
+      
+      setInitialData({
+        budget: params.budget || '',
+        profitRate: params.profitRate || '15',
+        cost: params.cost || 0,
+        annualCost: params.annualCost || 0,
+        baseSalary: params.baseSalary || '7460',
+        otherCostBonus: params.otherCostBonus || '0',
+        socialSecurityCost: params.socialSecurityCost || 0,
+        cash: params.cash || 0,
+        preTaxSalary: params.preTaxSalary || 0
+      });
+    }
+  }, [$w.page.params]); // 监听参数变化
     budget: '',
     profitRate: '15',
     cost: 0,
